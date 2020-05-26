@@ -3,17 +3,6 @@
 
 #include "i2c.h"
 
-void scan_pins_i2c() {
-  Serial.println("Scan each SDA:SCL pin pair from D0 to D7 for I2C devices");
-  uint8_t pins[] = {16, 5, 4, 0, 2, 14, 12, 13};
-  for (uint8_t i = 0; i < sizeof(pins); i++) {
-    for (uint8_t j = 0; j < sizeof(pins); j++) {
-      if (i != j){
-        scan_i2c(pins[i], pins[j]);
-      }
-    }
-  }
-}
 
 void println_i2c_address(byte address) {
   Serial.print("0x");
@@ -21,38 +10,45 @@ void println_i2c_address(byte address) {
   Serial.println(address, HEX);
 }
 
-void scan_i2c(byte sda, byte scl) {
-  bool headerPrinted = false;
+void scan_pins_i2c() {
+  Serial.println("Scan each SDA:SCL pin pair from D0 to D7 for I2C devices");
+  uint8_t pins[] = {16, 5, 4, 0, 2, 14, 12, 13};
+  for (uint8_t i = 0; i < sizeof(pins); i++) {
+    for (uint8_t j = 0; j < sizeof(pins); j++) {
+      byte sda = pins[i];
+      byte scl = pins[j];
+      if (sda != scl) {
+        byte addresses[128];
+        byte nDevices = scan_i2c(sda, scl, addresses, sizeof(addresses));
+        if (nDevices) {
+          Serial.print(nDevices); Serial.print(" I2C devices found on SDA=GPIO"); Serial.print(sda); Serial.print(":SCL=GPIO"); Serial.println(scl);
+        }
+        for (int k = 0; k < nDevices; k++) {
+          Serial.print("address: "); println_i2c_address(addresses[k]);
+        }
+      }
+    }
+  }
+}
+
+byte scan_i2c(byte sda, byte scl, byte addresses[], byte len) {
   byte error = 0;
-  int nDevices = 0;
+  byte nDevices = 0;
   
   Wire.begin(sda, scl);
 
-  for (byte address = 1; address < 128; address++ )  {
-    Wire.beginTransmission(address);
+  int last = 0;
+  for (byte i = 1; i < 128; i++)  {
+    Wire.beginTransmission(i);
     // check if transmission was acknowledged
     error = Wire.endTransmission(); 
 
     if (error == 0) {
-      if (!headerPrinted) {
-        Serial.print("I2C devices on SDA=GPIO");
-        Serial.print(sda);
-        Serial.print(":SCL=GPIO");
-        Serial.print(scl);
-        Serial.println(" pin pair:");
-        headerPrinted = true;
-      }
-      Serial.print("address: ");
-      println_i2c_address(address);
+      addresses[last++] = i;
       nDevices++;
-    } else if (error == 4) {
-      Serial.print("Unknow error at address 0x");
-      println_i2c_address(address);
+      if (nDevices >= len) { break; }
     }
   }
-  
-  if (nDevices > 0) {
-    Serial.print("I2C devices found: ");
-    Serial.println(nDevices);
-  }
+
+  return nDevices;
 }
