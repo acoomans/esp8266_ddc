@@ -56,27 +56,20 @@ public:
     }
 
     void print() {
-      Serial.print("displayDescriptorType: ");
       switch (displayDescriptorType) {
         case serialNumber:
-          Serial.println("serialNumber");
+          Serial.print("serialNumber: ");
           break;
         case unspecifiedText:
-          Serial.println("unspecifiedText");
+          Serial.print("unspecifiedText: ");
           break;
          case displayName:
-           Serial.println("displayName");
+           Serial.print("displayName: ");
            break;
          default:
-           Serial.println("other");
+           Serial.print("other: ");
       }
-      switch (displayDescriptorType) {
-        case serialNumber:
-        case unspecifiedText:
-        case displayName:
-          Serial.print("displayDescriptorText: "); Serial.print(displayDescriptorText);
-        default: break;
-      }
+      Serial.print(displayDescriptorText);
     }
 };
 
@@ -200,23 +193,19 @@ public:
           default:
             Serial.println("Other");
         }
+      }
 
-        if (displayDescriptor0.isDisplayDescriptorTextReadable) {
-          Serial.println("Display Descriptor 0:");
-          displayDescriptor0.print();
-        }
-        if (displayDescriptor1.isDisplayDescriptorTextReadable) {
-          Serial.println("Display Descriptor 1:");
-          displayDescriptor1.print();
-        }
-        if (displayDescriptor2.isDisplayDescriptorTextReadable) {
-          Serial.println("Display Descriptor 2:");
-          displayDescriptor2.print();
-        }
-        if (displayDescriptor3.isDisplayDescriptorTextReadable) {
-          Serial.println("Display Descriptor 3:");
-          displayDescriptor3.print();
-        }
+      if (displayDescriptor0.isDisplayDescriptorTextReadable) {
+        displayDescriptor0.print();
+      }
+      if (displayDescriptor1.isDisplayDescriptorTextReadable) {
+        displayDescriptor1.print();
+      }
+      if (displayDescriptor2.isDisplayDescriptorTextReadable) {
+        displayDescriptor2.print();
+      }
+      if (displayDescriptor3.isDisplayDescriptorTextReadable) {
+        displayDescriptor3.print();
       }
     }
 };
