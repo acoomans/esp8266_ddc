@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <Wire.h>pr
+#include <Wire.h>
 
 // https://en.wikipedia.org/wiki/Extended_Display_Identification_Data
 
