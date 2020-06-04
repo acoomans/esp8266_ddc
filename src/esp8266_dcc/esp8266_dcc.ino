@@ -22,20 +22,24 @@ void setup() {
   setupOTA();
   setupMDNS();
 
-//  delay(1000);
-//  
-//  byte addresses[24];
-//  byte nDevices = scan_i2c(SDA_PIN, SCL_PIN, addresses, sizeof(addresses));
-//  for (int i=0; i < nDevices; i++) {
-//    delay(100);
-//    byte address = addresses[i];
-//    EDID e = EDID();
-//    e.requestFrom(address);
-//    if (e.isValid()) {
-//      Serial.print("Found EDID at 0x"); Serial.println(address, HEX);
-//      e.print();
-//    }
-//  }
+  delay(1000);
+  
+  byte addresses[24];
+  byte nDevices = scan_i2c(SDA_PIN, SCL_PIN, addresses, sizeof(addresses));
+  for (int i=0; i < nDevices; i++) {
+    delay(100);
+    byte address = addresses[i];
+    Serial.print("Scanning 0x"); Serial.print(address, HEX);
+    
+    EDID e = EDID();
+    e.requestFrom(address);
+    if (e.isValid()) {
+      Serial.println(" Found EDID");
+      e.print();
+    } else {
+      Serial.println();
+    }
+  }
   
   Serial.println("Started.");
 }
