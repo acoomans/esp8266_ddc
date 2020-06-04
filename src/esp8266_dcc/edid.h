@@ -58,16 +58,16 @@ public:
     void print() {
       switch (displayDescriptorType) {
         case serialNumber:
-          Serial.print("serialNumber: ");
+          Serial.print("Serial Number = ");
           break;
         case unspecifiedText:
-          Serial.print("unspecifiedText: ");
+          Serial.print("Unspecified Text = ");
           break;
          case displayName:
-           Serial.print("displayName: ");
+           Serial.print("Display Name = ");
            break;
          default:
-           Serial.print("other: ");
+           Serial.print("Other = ");
       }
       Serial.print(displayDescriptorText);
     }
@@ -168,17 +168,17 @@ public:
     }
 
     void print() {
-      if (!hasHeader) { Serial.println("no EDID header"); return; }
-      if (!isChecksumValid) { Serial.println("invalid checksum"); return; }
+      if (!hasHeader) { Serial.println("No EDID header"); return; }
+      if (!isChecksumValid) { Serial.println("Invalid EDID checksum"); return; }
       
-      Serial.print("manufacturerID: ");
+      Serial.print("Manufacturer ID = ");
       Serial.println(manufacturerID);
 
-      Serial.print("input: ");
+      Serial.print("Input = ");
       if (isDigital) {
-        Serial.println("digital");
+        Serial.println("Digital");
         
-        Serial.print("video_interface: ");
+        Serial.print("Video Interface = ");
         switch (video_interface) {
           case undefined:
             Serial.println("Undefined");
@@ -209,3 +209,5 @@ public:
       }
     }
 };
+
+void setupEDID();
