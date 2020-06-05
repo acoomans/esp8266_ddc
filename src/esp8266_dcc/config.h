@@ -8,4 +8,4 @@
 #define SDA_PIN 5
 #define SCL_PIN 4
 
-const int16_t I2C_DISPLAY = 0x50;
+#define I2C_EDID          0x50

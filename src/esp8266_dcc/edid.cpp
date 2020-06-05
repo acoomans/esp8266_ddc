@@ -6,7 +6,7 @@ void setupEDID() {
   Wire.begin(SDA_PIN, SCL_PIN);
 
   EDID e = EDID();
-  e.requestFrom(I2C_DISPLAY);
+  e.requestFrom(I2C_EDID);
   if (e.isValid()) {
     Serial.println("Found EDID:");
     e.print();
