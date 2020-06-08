@@ -154,8 +154,8 @@ float ddc_read(byte index) {
   if (data_out[8] != 0x0) Serial.println("Invalid byte 8");
   byte cur_value = data_out[9]; Serial.print("Current value: "); Serial.println(cur_value, HEX);
 #else
-  byte max_value = data_out[7]; Serial.print("Max value: "); Serial.println(max_value, HEX);
-  byte cur_value = data_out[9]; Serial.print("Current value: "); Serial.println(cur_value, HEX);
+  byte max_value = data_out[7];
+  byte cur_value = data_out[9];
 #endif
     
   return 1.0 * cur_value / max_value;
