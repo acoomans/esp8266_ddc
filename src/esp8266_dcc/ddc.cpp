@@ -118,13 +118,15 @@ byte ddc_receive(byte addr, byte data[], byte len) {
 
 /* Reading values is done by first sending a write packet then reading the response read packet
  */
-float ddc_read(byte index) {
+dcc_value ddc_read(byte index) {
+
+  dcc_value val;
   
   byte data_in[] = {
     0x51,       // subaddress
     0x80 | 2,   // number of bytes in message
     0x01,       // read
-    index,       // index
+    index,      // index
   };
   ddc_send(I2C_DDC, write, data_in, sizeof(data_in));
   
@@ -139,7 +141,9 @@ float ddc_read(byte index) {
   }
   if (!retries) {
     Serial.println("Max retries reached");
-    return INVALID_READ;
+    val.max = 0;
+    val.current = 0;
+    return val;
   }
   
 #ifdef DEBUG
@@ -150,13 +154,13 @@ float ddc_read(byte index) {
   if (data_out[4] != data_in[3]) Serial.println("Invalid index: not requested index");
   if (data_out[5] != 0x0) Serial.println("Invalid byte 5");
   if (data_out[6] != 0x0) Serial.println("Invalid byte 6");
-  byte max_value = data_out[7]; Serial.print("Max value: "); Serial.println(max_value, HEX);
+  val.max = data_out[7]; Serial.print("Max value: "); Serial.println(val.max, HEX);
   if (data_out[8] != 0x0) Serial.println("Invalid byte 8");
-  byte cur_value = data_out[9]; Serial.print("Current value: "); Serial.println(cur_value, HEX);
+  val.current = data_out[9]; Serial.print("Current value: "); Serial.println(val.current, HEX);
 #else
-  byte max_value = data_out[7];
-  byte cur_value = data_out[9];
+  byte val.max = data_out[7];
+  byte val.current = data_out[9];
 #endif
     
-  return 1.0 * cur_value / max_value;
+  return val;
 }

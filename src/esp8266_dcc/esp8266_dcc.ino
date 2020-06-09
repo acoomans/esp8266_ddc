@@ -24,8 +24,8 @@ void loop() {
 //  handleOTA();
 
   delay(1000);
-  float val = ddc_read(BRIGHTNESS);
-  if (val != INVALID_READ) {
-    Serial.print("Brightness: "); Serial.println(val);
+  dcc_value val = ddc_read(BRIGHTNESS);
+  if (!INVALID_READ(val)) {
+    Serial.print("Brightness: "); Serial.println(FLOAT_VALUE(val));
   }
 }
