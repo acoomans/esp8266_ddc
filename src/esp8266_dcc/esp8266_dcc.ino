@@ -16,16 +16,21 @@ void setup() {
 //  setupEDID();
   setupDDC();
 
+//  dcc_write(INPUT_SOURCE, INPUT_SOURCE_HDMI_1);
+//  dcc_write(INPUT_SOURCE, INPUT_SOURCE_HDMI_2);
+  dcc_write(INPUT_SOURCE, INPUT_SOURCE_DP);
+
   Serial.println();
   Serial.println("Started.");
 }
 
 void loop() {
 //  handleOTA();
-
-  delay(1000);
-  dcc_value val = ddc_read(BRIGHTNESS);
-  if (!INVALID_READ(val)) {
-    Serial.print("Brightness: "); Serial.println(FLOAT_VALUE(val));
-  }
+  
+//  dcc_value val = ddc_read(INPUT_SOURCE);
+//  if (!INVALID_READ(val)) {
+//    Serial.print("Brightness: "); Serial.print(val.current, HEX); Serial.print("/"); Serial.println(val.max, HEX);
+//  }
+  
+  delay(500);
 }

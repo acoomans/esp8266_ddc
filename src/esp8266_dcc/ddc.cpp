@@ -164,3 +164,17 @@ dcc_value ddc_read(byte index) {
     
   return val;
 }
+
+void dcc_write(byte index, byte value) {
+  
+  byte data_in[] = {
+    0x51,       // subaddress
+    0x80 | 4,   // number of bytes in message
+    0x03,       // change
+    index,      // index
+    0x0,
+    value       // new value
+  };
+  ddc_send(I2C_DDC, write, data_in, sizeof(data_in));
+  
+}

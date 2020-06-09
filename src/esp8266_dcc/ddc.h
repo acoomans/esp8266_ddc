@@ -11,6 +11,10 @@
 #define AUDIO_MUTE    0x8D
 #define POWER_CONTROL 0xE1
 
+#define INPUT_SOURCE_DP  0x0F
+#define INPUT_SOURCE_HDMI_1  0x11
+#define INPUT_SOURCE_HDMI_2  0x12
+
 void setupDDC();
 
 typedef struct {
@@ -19,3 +23,4 @@ typedef struct {
 } dcc_value;
 
 dcc_value ddc_read(byte index);
+void dcc_write(byte index, byte value);
