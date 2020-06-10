@@ -9,6 +9,8 @@
 
 WiFiClient client;
 
+bool process_messages = false;
+
 Adafruit_MQTT_Client mqtt(&client, MQTT_HOST, MQTT_PORT, MQTT_USER, MQTT_PASSWD);
 
 Adafruit_MQTT_Publish brightness_pub = Adafruit_MQTT_Publish(&mqtt, MQTT_PUB_BRIGHTNESS);
@@ -54,6 +56,8 @@ void setupMQTT(String host_addr) {
       ESP.restart();
     }
   }
+
+  process_messages = true;
 
   Serial.println("Connected to MQTT.");
 }

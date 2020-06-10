@@ -5,6 +5,7 @@
 #include "mqtt.h"
 
 void brightness_callback(double x) {
+  if (!process_messages) return;
 #ifdef DEBUG
   Serial.print("Sub Brightness: "); Serial.println(x);
 #endif
@@ -12,6 +13,7 @@ void brightness_callback(double x) {
 }
 
 void input_source_callback(char *data, uint16_t len) {
+  if (!process_messages) return;
   String input = String(data);
 #ifdef DEBUG
   Serial.print("Sub Input Source: "); Serial.println(input);
@@ -26,6 +28,7 @@ void input_source_callback(char *data, uint16_t len) {
 }
 
 void volume_callback(double x) {
+  if (!process_messages) return;
 #ifdef DEBUG
   Serial.print("Sub Volume: "); Serial.println(x);
 #endif
@@ -33,6 +36,7 @@ void volume_callback(double x) {
 }
 
 void mute_callback(char *data, uint16_t len) {
+  if (!process_messages) return;
   String mute = String(data);
 #ifdef DEBUG
   Serial.print("Sub Mute: "); Serial.println(mute);

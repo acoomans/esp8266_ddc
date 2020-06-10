@@ -11,6 +11,8 @@
 #define MQTT_MUTE_MUTED           "ON"
 #define MQTT_MUTE_UNMUTED         "OFF"
 
+extern bool process_messages;
+
 extern Adafruit_MQTT_Publish brightness_pub;
 extern Adafruit_MQTT_Publish inputsource_pub;
 extern Adafruit_MQTT_Publish volume_pub;
