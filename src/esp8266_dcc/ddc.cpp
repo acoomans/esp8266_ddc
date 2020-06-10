@@ -132,7 +132,7 @@ dcc_value ddc_read(byte index) {
   
   byte data_out[2 + 8];
 
-  byte retries = RETRY_COUNT;
+  byte retries = DDC_RETRY;
   while (retries && !ddc_receive(I2C_DDC, data_out, sizeof(data_out))) {
 #ifdef DEBUG
     Serial.println("Invalid bytes received: retrying...");
