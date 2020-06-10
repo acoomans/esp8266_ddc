@@ -158,8 +158,8 @@ dcc_value ddc_read(byte index) {
   if (data_out[8] != 0x0) Serial.println("Invalid byte 8");
   val.current = data_out[9]; Serial.print("Current value: "); Serial.println(val.current, HEX);
 #else
-  byte val.max = data_out[7];
-  byte val.current = data_out[9];
+  val.max = data_out[7];
+  val.current = data_out[9];
 #endif
     
   return val;
