@@ -11,9 +11,12 @@
 #define AUDIO_MUTE    0x8D
 #define POWER_CONTROL 0xE1
 
-#define INPUT_SOURCE_DP  0x0F
-#define INPUT_SOURCE_HDMI_1  0x11
-#define INPUT_SOURCE_HDMI_2  0x12
+#define INPUT_SOURCE_DP       0x0F
+#define INPUT_SOURCE_HDMI_1   0x11
+#define INPUT_SOURCE_HDMI_2   0x12
+
+#define AUDIO_MUTE_MUTED      0x1
+#define AUDIO_MUTE_UNMUTED    0x2
 
 void setupDDC();
 
