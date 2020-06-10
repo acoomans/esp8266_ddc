@@ -27,11 +27,17 @@ void setup() {
   Serial.println("Started.");
 }
 
+long previousMillis = 0;
+
 void loop() {
   handleOTA();
-  publishBrightness();
-  publishInputSource();
-  publishVolume();
-  publishMute();
-  delay(MQTT_DELAY * 1000);
+
+  unsigned long currentMillis = millis();
+  if (currentMillis - previousMillis > MQTT_DELAY * 1000) {
+    previousMillis = currentMillis;
+    publishBrightness();
+    publishInputSource();
+    publishVolume();
+    publishMute();
+  }
 }
