@@ -11,13 +11,13 @@ void publishCheck();
 int publish_brightness_errors = 0;
 
 void publishBrightness() {
-  dcc_value val = ddc_read(BRIGHTNESS);
+  dcc_value val = ddc_read(DDC_BRIGHTNESS);
   
-  if (INVALID_READ(val)) {
+  if (DDC_INVALID_READ(val)) {
     Serial.println(F("Error reading brightness"));
     publish_brightness_errors++;  
   } else {
-    int brightness = FLOAT_VALUE(val) * 100;
+    int brightness = DDC_FLOAT_VALUE(val) * 100;
 #ifdef DEBUG
     Serial.print("Pub Brightness: "); Serial.println(brightness);
 #endif
@@ -35,22 +35,22 @@ void publishBrightness() {
 int publish_inputsource_errors = 0;
 
 void publishInputSource() {
-  dcc_value val = ddc_read(INPUT_SOURCE);
+  dcc_value val = ddc_read(DDC_INPUT_SOURCE);
   
-  if (INVALID_READ(val)) {
+  if (DDC_INVALID_READ(val)) {
     Serial.println(F("Error reading input source"));
     publish_inputsource_errors++;
   } else {
     const char *inputsource = "Undefined";
     switch (val.current) {
-      case INPUT_SOURCE_DP:
-        inputsource = "DisplayPort";
+      case DDC_INPUT_SOURCE_DP:
+        inputsource = MQTT_INPUT_SOURCE_DP;
         break;
-      case INPUT_SOURCE_HDMI_1:
-        inputsource = "HDMI1";
+      case DDC_INPUT_SOURCE_HDMI_1:
+        inputsource = MQTT_INPUT_SOURCE_HDMI_1;
         break;
-      case INPUT_SOURCE_HDMI_2:
-        inputsource = "HDMI2";
+      case DDC_INPUT_SOURCE_HDMI_2:
+        inputsource = MQTT_INPUT_SOURCE_HDMI_2;
         break;
     }
 #ifdef DEBUG
@@ -70,13 +70,13 @@ void publishInputSource() {
 int publish_volume_errors = 0;
 
 void publishVolume() {
-  dcc_value val = ddc_read(AUDIO_VOLUME);
+  dcc_value val = ddc_read(DDC_AUDIO_VOLUME);
   
-  if (INVALID_READ(val)) {
+  if (DDC_INVALID_READ(val)) {
     Serial.println(F("Error reading volume"));
     publish_volume_errors++;  
   } else {
-    int volume = FLOAT_VALUE(val) * 100;
+    int volume = DDC_FLOAT_VALUE(val) * 100;
 #ifdef DEBUG
     Serial.print("Pub Volume: "); Serial.println(volume);
 #endif
@@ -94,19 +94,19 @@ void publishVolume() {
 int publish_mute_errors = 0;
 
 void publishMute() {
-  dcc_value val = ddc_read(AUDIO_MUTE);
+  dcc_value val = ddc_read(DDC_AUDIO_MUTE);
   
-  if (INVALID_READ(val)) {
+  if (DDC_INVALID_READ(val)) {
     Serial.println(F("Error reading mute"));
     publish_mute_errors++;  
   } else {
     const char *mute = "UNDEF";
     switch (val.current) {
-      case AUDIO_MUTE_MUTED:
-        mute = "ON";
+      case DDC_AUDIO_MUTE_MUTED:
+        mute = MQTT_MUTE_MUTED;
         break;
-      case AUDIO_MUTE_UNMUTED:
-        mute = "OFF";
+      case DDC_AUDIO_MUTE_UNMUTED:
+        mute = MQTT_MUTE_UNMUTED;
         break;
     }
 #ifdef DEBUG
