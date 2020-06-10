@@ -4,6 +4,8 @@
 
 #include "config.h"
 #include "secrets.h"
+#include "publish.h"
+#include "subscribe.h"
 
 WiFiClient client;
 
@@ -14,6 +16,11 @@ Adafruit_MQTT_Publish inputsource_pub = Adafruit_MQTT_Publish(&mqtt, MQTT_PUB_IN
 Adafruit_MQTT_Publish volume_pub = Adafruit_MQTT_Publish(&mqtt, MQTT_PUB_VOLUME);
 Adafruit_MQTT_Publish mute_pub = Adafruit_MQTT_Publish(&mqtt, MQTT_PUB_MUTE);
 
+Adafruit_MQTT_Subscribe brightness_sub = Adafruit_MQTT_Subscribe(&mqtt, MQTT_SUB_BRIGHTNESS);
+Adafruit_MQTT_Subscribe inputsource_sub = Adafruit_MQTT_Subscribe(&mqtt, MQTT_SUB_INPUTSOURCE);
+Adafruit_MQTT_Subscribe volume_sub = Adafruit_MQTT_Subscribe(&mqtt, MQTT_SUB_VOLUME);
+Adafruit_MQTT_Subscribe mute_sub = Adafruit_MQTT_Subscribe(&mqtt, MQTT_SUB_MUTE);
+
 void setupMQTT(String host_addr) {
   if (mqtt.connected()) {
     return;
@@ -22,6 +29,16 @@ void setupMQTT(String host_addr) {
   mqtt = Adafruit_MQTT_Client(&client, host_addr.c_str(), MQTT_PORT, MQTT_USER, MQTT_PASSWD);
 
   Serial.print("Connecting to MQTT... ");
+
+  brightness_sub.setCallback(brightness_callback);
+  inputsource_sub.setCallback(input_source_callback);
+  volume_sub.setCallback(volume_callback);
+  mute_sub.setCallback(mute_callback);
+
+  mqtt.subscribe(&brightness_sub);
+  mqtt.subscribe(&inputsource_sub);
+  mqtt.subscribe(&volume_sub);
+  mqtt.subscribe(&mute_sub);
 
   int8_t ret;
   uint8_t retries = 5;
@@ -38,10 +55,20 @@ void setupMQTT(String host_addr) {
     }
   }
 
-  brightness_pub = Adafruit_MQTT_Publish(&mqtt, MQTT_PUB_BRIGHTNESS);
-  inputsource_pub = Adafruit_MQTT_Publish(&mqtt, MQTT_PUB_INPUTSOURCE);
-  volume_pub = Adafruit_MQTT_Publish(&mqtt, MQTT_PUB_VOLUME);
-  mute_pub = Adafruit_MQTT_Publish(&mqtt, MQTT_PUB_MUTE);
-  
   Serial.println("Connected to MQTT.");
+}
+
+long previousMillis = 0;
+
+void loopMQTT() {
+  mqtt.processPackets(20);
+
+  unsigned long currentMillis = millis();
+  if (currentMillis - previousMillis > MQTT_DELAY * 1000) {
+    previousMillis = currentMillis;
+    publishBrightness();
+    publishInputSource();
+    publishVolume();
+    publishMute();
+  }
 }

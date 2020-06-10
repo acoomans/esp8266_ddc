@@ -18,7 +18,9 @@ void publishBrightness() {
     publish_brightness_errors++;  
   } else {
     int brightness = FLOAT_VALUE(val) * 100;
-    Serial.print("Brightness: "); Serial.println(brightness);
+#ifdef DEBUG
+    Serial.print("Pub Brightness: "); Serial.println(brightness);
+#endif
     
     if (brightness_pub.publish(brightness)) {
       publish_brightness_errors = 0;
@@ -51,7 +53,9 @@ void publishInputSource() {
         inputsource = "HDMI2";
         break;
     }
-    Serial.print("Input Source: "); Serial.println(inputsource);
+#ifdef DEBUG
+    Serial.print("Pub Input Source: "); Serial.println(inputsource);
+#endif
     
     if (inputsource_pub.publish(inputsource)) {
       publish_inputsource_errors = 0;
@@ -73,7 +77,9 @@ void publishVolume() {
     publish_volume_errors++;  
   } else {
     int volume = FLOAT_VALUE(val) * 100;
-    Serial.print("Volume: "); Serial.println(volume);
+#ifdef DEBUG
+    Serial.print("Pub Volume: "); Serial.println(volume);
+#endif
     
     if (volume_pub.publish(volume)) {
       publish_volume_errors = 0;
@@ -103,7 +109,9 @@ void publishMute() {
         mute = "OFF";
         break;
     }
-    Serial.print("Mute: "); Serial.println(mute);
+#ifdef DEBUG
+    Serial.print("Pub Mute: "); Serial.println(mute);
+#endif
     
     if (mute_pub.publish(mute)) {
       publish_mute_errors = 0;

@@ -9,4 +9,10 @@ extern Adafruit_MQTT_Publish inputsource_pub;
 extern Adafruit_MQTT_Publish volume_pub;
 extern Adafruit_MQTT_Publish mute_pub;
 
+extern Adafruit_MQTT_Subscribe brightness_sub;
+extern Adafruit_MQTT_Subscribe inputsource_sub;
+extern Adafruit_MQTT_Subscribe volume_sub;
+extern Adafruit_MQTT_Subscribe mute_sub;
+
 void setupMQTT(String host_addr);
+void loopMQTT();
