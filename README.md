@@ -1,4 +1,4 @@
-ESP8266 DCC
+ESP8266 DDC
 ===========
 
 A project for an esp8266 to control a computer monitor through HDMI's Display Data Channel.
