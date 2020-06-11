@@ -32,4 +32,7 @@
 
 #define DDC_RETRY               3
 
+#define BUTTON_PIN              2 // D4 / GPIO2
+#define LED_PIN                 0 // D3 / GPIO0
+
 //#define DEBUG                   1

@@ -5,6 +5,7 @@
 #include "mdns.h"
 #include "edid.h"
 #include "ddc.h"
+#include "button.h"
 
 void setup() {
   Serial.begin(115200);
@@ -16,6 +17,7 @@ void setup() {
   setupMQTT(MDNSquery());
   setupEDID();
   setupDDC();
+  setupButton();
 
   Serial.println();
   Serial.println("Started.");
@@ -24,4 +26,5 @@ void setup() {
 void loop() {
   handleOTA();
   loopMQTT();
+  loopButton();
 }

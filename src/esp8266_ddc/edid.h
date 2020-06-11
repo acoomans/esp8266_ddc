@@ -207,6 +207,7 @@ public:
       if (displayDescriptor3.isDisplayDescriptorTextReadable) {
         displayDescriptor3.print();
       }
+      Serial.println();
     }
 };
 
